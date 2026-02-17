@@ -1,86 +1,144 @@
-BrainBolt ⚡
-BrainBolt is a full-stack quiz platform designed to test and enhance users' knowledge through interactive quizzes. It provides a modern UI, secure backend, and scalable architecture using Docker.
+# BrainBolt ⚡
 
-🚀 Features
-🧠 Interactive quiz system
-🔐 Secure backend API
-👤 User authentication and management
-📊 Quiz scoring and result tracking
-⚡ Fast and responsive frontend
-🐳 Docker support for easy deployment
-🌐 Full-stack architecture (Client + Server)
+BrainBolt is a full-stack quiz platform designed to test and enhance users' knowledge through interactive quizzes. It features a modern React frontend, secure Node.js backend, and Docker support for scalable deployment.
 
-🏗️ Tech Stack
-Frontend
-React.js
-JavaScript
-HTML, CSS
+---
 
-Backend
-Node.js
-Express.js
-Database
-MongoDB
-DevOps
-Docker
-Docker Compose
+## 🚀 Features
 
-📁 Project Structure
+- 🧠 Interactive quiz platform  
+- 🔐 Secure backend with authentication support  
+- ⚡ Fast and responsive React frontend  
+- 📊 Quiz scoring and result tracking  
+- 🌐 REST API based architecture  
+- 🐳 Docker support for easy setup and deployment  
+- 🧩 Modular and scalable structure  
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+- React.js
+- JavaScript
+- HTML5
+- CSS3
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB
+
+### DevOps
+- Docker
+- Docker Compose
+
+---
+
+## 📁 Project Structure
+
+```
 BrainBolt/
 │
-├── client/            # React frontend
+├── client/              # React frontend
 │
-├── server/            # Node.js backend API
+├── server/              # Node.js backend
 │
-├── docker-compose.yml # Docker configuration
+├── docker-compose.yml   # Docker configuration
 │
 └── README.md
+```
 
-⚙️ Installation and Setup
-1. Clone the repository
+---
+
+## ⚙️ Installation
+
+### Clone the repository
+
+```bash
 git clone https://github.com/kARUn077/BrainBolt.git
 cd BrainBolt
+```
 
-2. Run using Docker (Recommended)
+---
+
+## 🐳 Run with Docker (Recommended)
+
+```bash
 docker-compose up --build
+```
 
-3. Run manually (without Docker)
-Start Backend
+Frontend: http://localhost:5173  
+Backend: http://localhost:5000  
+
+---
+
+## 💻 Run without Docker
+
+### Backend
+
+```bash
 cd server
 npm install
 npm start
+```
 
-Start Frontend
+### Frontend
+
+```bash
 cd client
 npm install
 npm run dev
+```
 
-🌐 Environment Variables
-Create a .env file in the server folder:
+---
+
+## 🌐 Environment Variables
+
+Create a `.env` file in the `server` folder:
+
+```
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+```
 
-🎯 Future Improvements
-Admin dashboard
-Leaderboard system
-Multiple quiz categories
-Timer-based quizzes
-Analytics dashboard
+---
 
-🤝 Contributing
-Contributions are welcome!
+## 🎯 Future Enhancements
+
+- Leaderboard system  
+- Admin dashboard  
+- Timer-based quizzes  
+- Multiple quiz categories  
+- Analytics and performance tracking  
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
 
 Steps:
-Fork the repository
-Create a new branch
-Commit your changes
-Push to your branch
-Create a Pull Request
 
-📄 License
+1. Fork the repository  
+2. Create your branch (`git checkout -b feature-name`)  
+3. Commit changes (`git commit -m 'Add feature'`)  
+4. Push (`git push origin feature-name`)  
+5. Open Pull Request  
+
+---
+
+## 👨‍💻 Author
+
+Karun Poddar  
+
+GitHub: https://github.com/kARUn077  
+
+---
+
+## 📄 License
+
 This project is licensed under the MIT License.
-
-👨‍💻 Author
-Karun Poddar
-GitHub: https://github.com/kARUn077

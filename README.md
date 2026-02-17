@@ -119,6 +119,7 @@ Make sure the following are installed:
 ## 👨‍💻 Author
 Karun Poddar
 
+---
 
 ## Demo link
 https://drive.google.com/file/d/1N4nXf_cXzKe3BRbypr4tR_372oIXDupP/view?usp=sharing

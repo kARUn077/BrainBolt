@@ -1,144 +1,124 @@
-# BrainBolt ⚡
+# 🎯 Quiz Website
 
-BrainBolt is a full-stack quiz platform designed to test and enhance users' knowledge through interactive quizzes. It features a modern React frontend, secure Node.js backend, and Docker support for scalable deployment.
+## 🚀 Project Overview
 
----
-
-## 🚀 Features
-
-- 🧠 Interactive quiz platform  
-- 🔐 Secure backend with authentication support  
-- ⚡ Fast and responsive React frontend  
-- 📊 Quiz scoring and result tracking  
-- 🌐 REST API based architecture  
-- 🐳 Docker support for easy setup and deployment  
-- 🧩 Modular and scalable structure  
+Quiz Website is a full-stack web application built using **React.js** for the frontend and **Node.js + Express.js** for the backend.  
+It allows users to take quizzes, submit answers, and view results dynamically.
 
 ---
 
-## 🏗️ Tech Stack
+## ✨ Features / Functionality
 
-### Frontend
-- React.js
-- JavaScript
-- HTML5
-- CSS3
+- 📝 User can attempt quizzes
+- 📊 Automatic score calculation
+- 🔄 Dynamic question rendering
+- 💾 Backend API integration
+- 🗂 Organized frontend and backend structure
+- 🌐 REST API communication between client and server
+- 📦 MongoDB database integration
+- ⚡ Fast and responsive UI
 
-### Backend
+---
+
+## 📦 How to Run the Project
+
+Follow these steps to run the project locally:
+
+---
+
+### 🔹 Frontend Setup
+
+1. Navigate to the frontend folder:
+   ```bash
+   cd client
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend:
+   ```bash
+   npm start
+   ```
+
+Frontend runs on:
+```
+http://localhost:3000
+```
+
+---
+
+### 🔹 Backend Setup
+
+1. Navigate to the backend folder:
+   ```bash
+   cd server
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the backend:
+   ```bash
+   npm start
+   ```
+
+Backend runs on:
+```
+http://localhost:4000
+```
+
+---
+
+## 🛠 Technologies Used
+
+- React.js (Frontend)
 - Node.js
 - Express.js
-
-### Database
 - MongoDB
-
-### DevOps
-- Docker
-- Docker Compose
+- JavaScript
+- HTML5 & CSS3
 
 ---
 
 ## 📁 Project Structure
 
 ```
-BrainBolt/
+quiz/
 │
-├── client/              # React frontend
-│
-├── server/              # Node.js backend
-│
-├── docker-compose.yml   # Docker configuration
-│
+├── client/          # React Frontend
+├── server/          # Node.js Backend
+├── package.json
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Requirements
 
-### Clone the repository
+Make sure the following are installed:
 
-```bash
-git clone https://github.com/kARUn077/BrainBolt.git
-cd BrainBolt
-```
-
----
-
-## 🐳 Run with Docker (Recommended)
-
-```bash
-docker-compose up --build
-```
-
-Frontend: http://localhost:5173  
-Backend: http://localhost:5000  
+- Node.js
+- npm
+- MongoDB (if using local database)
 
 ---
 
-## 💻 Run without Docker
+## 📝 Notes
 
-### Backend
-
-```bash
-cd server
-npm install
-npm start
-```
-
-### Frontend
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
----
-
-## 🌐 Environment Variables
-
-Create a `.env` file in the `server` folder:
-
-```
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-```
-
----
-
-## 🎯 Future Enhancements
-
-- Leaderboard system  
-- Admin dashboard  
-- Timer-based quizzes  
-- Multiple quiz categories  
-- Analytics and performance tracking  
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome.
-
-Steps:
-
-1. Fork the repository  
-2. Create your branch (`git checkout -b feature-name`)  
-3. Commit changes (`git commit -m 'Add feature'`)  
-4. Push (`git push origin feature-name`)  
-5. Open Pull Request  
+- Run frontend and backend in separate terminals.
+- Ensure MongoDB is running before starting the backend.
+- Use correct port numbers if modified in the project.
 
 ---
 
 ## 👨‍💻 Author
+Karun Poddar
 
-Karun Poddar  
 
-GitHub: https://github.com/kARUn077  
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+## Demo link
+https://drive.google.com/file/d/1N4nXf_cXzKe3BRbypr4tR_372oIXDupP/view?usp=sharing

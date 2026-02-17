@@ -35,7 +35,7 @@ const registrationMail = async(email, studentName) => {
                             <p>Best regards,</p>
                             <br>
                         <div>
-                            <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
+                            <p>&copy; 2026 Designed, Developed and Hosted by National Informatics Center.</p>
                         </div>
                     </html>
                 `,

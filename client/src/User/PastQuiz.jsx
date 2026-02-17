@@ -1,122 +1,237 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
-function PastQuiz(){
+function PastQuiz() {
 
-    const params = useParams()
-    const email = params.email;
+    const { email } = useParams();
 
-    const [data, setData] = useState([])
-    const [message, setMessage] = useState([])
-    const navigate = useNavigate()
+    const [data, setData] = useState([]);
+    const [message, setMessage] = useState([]);
+
+    const navigate = useNavigate();
 
     axios.defaults.withCredentials = true;
-    useEffect(()=>{
-        axios.post('http://localhost:4000/pastQuizes',{email})
-            .then(result => {
-                setData(result.data.data);
-                setMessage(result.data.message);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }, [email]) 
 
-    const merge = [];
-    const combine = () => {
-        for (let i = 0; i < data.length; i++) {
-            merge.push({
-                quiz: message[i],
-                response: data[i]
-            });
-        }
-    }
-    combine();
-    
-    const redirect = (quizName,email) =>{
-        navigate(`../User/resultWindow/${email}/${quizName}`)
-    }
+    useEffect(() => {
 
-    const filterSort = merge== null ? "" : merge.sort((a,b) => a.quiz.quizDate < b.quiz.quizDate ? 1 : -1)
-    
-    
-    return(
+        axios.post("http://localhost:4000/pastQuizes", { email })
+        .then(res => {
+
+            setData(res.data.data || []);
+            setMessage(res.data.message || []);
+
+        })
+        .catch(err => console.log(err));
+
+    }, [email]);
+
+
+
+    // merge quiz + response
+    const merge = data.map((item, i) => ({
+
+        quiz: message[i],
+        response: item
+
+    })).filter(item => item.quiz && item.response);
+
+
+
+    // sort latest first
+    const filterSort = merge.sort(
+        (a,b) => new Date(b.quiz.quizDate) - new Date(a.quiz.quizDate)
+    );
+
+
+
+    const redirect = (quizName) => {
+
+        navigate(`/User/resultWindow/${email}/${quizName}`);
+
+    };
+
+
+
+    return (
+
         <div>
-            <div class="header">
-                <img src={require("../pariksha.jpg")} />
+
+            <div className="header">
+                <img src={require("../pariksha.jpg")} alt="logo"/>
             </div>
 
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+
+
+            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+
+                <div className="container-fluid">
+
+                    <a className="navbar-brand">Navbar</a>
+
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                    >
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link" to={`../User/dashboard/${email}`}>Dashboard</Link>
+
+
+                    <div className="collapse navbar-collapse">
+
+                        <ul className="navbar-nav me-auto">
+
+                            <li className="nav-item">
+                                <Link className="nav-link"
+                                to={`/User/dashboard/${email}`}>
+                                Dashboard
+                                </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to={`../User/liveQuiz/${email}`}>Live Quiz</Link>
+
+                            <li className="nav-item">
+                                <Link className="nav-link"
+                                to={`/User/liveQuiz/${email}`}>
+                                Live Quiz
+                                </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to={`../User/pastQuiz/${email}`}>Past Quizes</Link>
+
+                            <li className="nav-item">
+                                <Link className="nav-link"
+                                to={`/User/pastQuiz/${email}`}>
+                                Past Quizzes
+                                </Link>
                             </li>
-                            {/* <li class="nav-item">
-                                <Link class="nav-link" to={`../User/studyMaterial/${email}`}>Study Material</Link>
-                            </li> */}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Profile
+
+
+                            <li className="nav-item dropdown">
+
+                                <a className="nav-link dropdown-toggle"
+                                data-bs-toggle="dropdown">
+                                Profile
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <Link class="nav-link" to={`../User/update/${email}`}>Update</Link>
-                                    <Link class="nav-link" to={`../User/delete/${email}`}>Delete</Link>
+
+                                <ul className="dropdown-menu">
+
+                                    <li>
+                                        <Link className="dropdown-item"
+                                        to={`/User/update/${email}`}>
+                                        Update
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <Link className="dropdown-item"
+                                        to={`/User/delete/${email}`}>
+                                        Delete
+                                        </Link>
+                                    </li>
+
                                 </ul>
+
                             </li>
+
                         </ul>
+
                     </div>
+
                 </div>
+
             </nav>
 
-            <table class="table">
+
+
+            <table className="table">
+
                 <thead>
+
                     <tr>
-                        <th scope="col">Name of the Quiz</th>
-                        <th scope="col">Date/Time</th>
-                        <th scope="col">Marks Scored</th>
-                        <th scope="col">Max marks</th>
-                        <th scope="col">Show Result</th>
+                        <th>Name of Quiz</th>
+                        <th>Date/Time</th>
+                        <th>Marks Scored</th>
+                        <th>Max Marks</th>
+                        <th>Show Result</th>
                     </tr>
+
                 </thead>
+
+
                 <tbody>
+
                 {
-                        filterSort == null ? "" : filterSort.map((value) => {
-                            return <tr>
-                                <td>{value==null ? "" : value.quiz.quizName}</td>
-                                <td>{value==null ? "" : moment(value.quiz.quizDate).format('Do MMM YYYY, h:mm:ss a')}</td>
-                                <td>{value==null ? "" :value.response.score}</td>
-                                <td>{value==null ? "" :value.response.correct*4 + value.response.wrong*4}</td>
-                                <td><button className="btn btn-outline-success" onClick={()=>redirect(value.quiz.quizName,value.response.quizId.slice(value.quiz.quizName.length+1,value.response.quizId.lenght))} >Click here</button></td>
-                            </tr>
-                        })
-                }   
+
+                    filterSort.length === 0 ?
+
+                    <tr>
+                        <td colSpan="5" className="text-center">
+                        No past quizzes found
+                        </td>
+                    </tr>
+
+                    :
+
+                    filterSort.map((item, index) => (
+
+                        <tr key={index}>
+
+                            <td>{item.quiz.quizName}</td>
+
+                            <td>
+                            {
+                                moment(item.quiz.quizDate)
+                                .format("Do MMM YYYY, h:mm:ss a")
+                            }
+                            </td>
+
+                            <td>{item.response.score || 0}</td>
+
+                            <td>
+                            {(item.quiz.Query?.length || 0) * 4}
+                            </td>
+
+                            <td>
+                                <button
+                                className="btn btn-outline-success"
+                                onClick={() =>
+                                redirect(item.quiz.quizName)}
+                                >
+                                View Result
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    ))
+
+                }
+
                 </tbody>
+
             </table>
 
-            <div class="footer">
-                <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
-                <br />
+
+
+            <div className="footer text-center">
+
+                <br/>
+
+                <p>
+                © 2026 Designed, Developed and Hosted by National Informatics Center.
+                </p>
+
+                <br/>
+
             </div>
+
+
         </div>
-    )
+
+    );
+
 }
 
 export default PastQuiz;

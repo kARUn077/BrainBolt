@@ -1,106 +1,159 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 function LeaderBoard() {
 
-    const params = useParams();
-    const quizName = params.quizName;
+    const { quizName } = useParams();
 
-    const [data, setData] = useState([])
-    const [message, setMessage] = useState([])
+    const [data, setData] = useState([]);
+    const [message, setMessage] = useState([]);
 
-    axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.post('http://localhost:4000/leaderBoard', { quizName })
-            .then(result => {
-                setData(result.data.data);
-                setMessage(result.data.message);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }, [])
 
-    const merge = [];
-    const combine = () => {
-        for (let i = 0; i < data.length; i++) {
-            merge.push({
-                detail: message[i],
-                response: data[i]
-            });
-        }
-    }
-    combine();
+        axios.post("http://localhost:4000/leaderBoard", { quizName })
+        .then(result => {
 
-    const filterSort = merge== null ? "" : merge.sort((a,b) => a.response.score < b.response.score ? 1 : -1)
+            setData(result.data.data || []);
+            setMessage(result.data.message || []);
+
+        })
+        .catch(error => console.log(error));
+
+    }, [quizName]);
+
+
+    const merged = data.map((item, index) => ({
+        detail: message[index] || {},
+        response: item || {}
+    }));
+
+
+    const sorted = merged.sort(
+        (a, b) => (b.response.score || 0) - (a.response.score || 0)
+    );
+
 
     return (
+
         <div>
-            <div class="header">
-                <img src={require("../pariksha.jpg")} />
+
+            <div className="header">
+                <img src={require("../pariksha.jpg")} alt="logo"/>
             </div>
 
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Services</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/quizDetails">Quiz Details</Link>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+
+                <div className="container-fluid">
+
+                    <Link className="navbar-brand" to="/Admin/quizDetails">
+                        Services
+                    </Link>
+
+                    <div className="collapse navbar-collapse">
+
+                        <ul className="navbar-nav me-auto">
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Admin/quizDetails">
+                                    Quiz Details
+                                </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/createQuiz">Create Quiz</Link>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Admin/createQuiz">
+                                    Create Quiz
+                                </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/upload">Upload</Link>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Admin/upload">
+                                    Upload
+                                </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/totalUsers">Total Users</Link>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Admin/totalUsers">
+                                    Total Users
+                                </Link>
                             </li>
+
                         </ul>
+
                     </div>
+
                 </div>
+
             </nav>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Name of the Student</th>
-                        <th scope="col">Email Id</th>
-                        <th scope="col">Mobile No.</th>
-                        <th scope="col">Marks Scored</th>
-                        <th scope="col">Positive Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                        filterSort == null ? "" : filterSort.map((value) => {
-                            return <tr>
-                                <td>{value==null ? "" : value.detail.name}</td>
-                                <td>{value==null ? "" :value.detail.email}</td>
-                                <td>{value==null ? "" :value.detail.mobile}</td>
-                                <td>{value==null ? "" :value.response.score}</td>
-                                <td>{value==null ? "" :value.response.correct*4}</td>
-                            </tr>
-                        })
-                }
-                </tbody>
-            </table>
 
-            <div class="footer">
-                <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
-                <br />
+            <div className="container mt-4">
+
+                <h3 className="text-center mb-3">
+                    Leaderboard — {quizName}
+                </h3>
+
+
+                <table className="table table-bordered">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Score</th>
+                            <th>Correct Score</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {sorted.length === 0 ?
+
+                            <tr>
+                                <td colSpan="5" className="text-center">
+                                    No Data Found
+                                </td>
+                            </tr>
+
+                        :
+
+                            sorted.map((value, index) => (
+
+                                <tr key={index}>
+
+                                    <td>{index + 1}</td>
+
+                                    <td>{value.detail.name || "N/A"}</td>
+
+                                    <td>{value.detail.email || "N/A"}</td>
+
+                                    <td>{value.response.score || 0}</td>
+
+                                    <td>{(value.response.correct || 0) * 4}</td>
+
+                                </tr>
+
+                            ))
+
+                        }
+
+                    </tbody>
+
+                </table>
+
             </div>
+
         </div>
+
     );
+
 }
 
 export default LeaderBoard;

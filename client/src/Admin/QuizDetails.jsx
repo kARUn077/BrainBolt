@@ -1,112 +1,195 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
-function QuizDetails(){
+function QuizDetails() {
+  const [values, setValues] = useState([]);
+  const navigate = useNavigate();
 
-    const [values,setValues] = useState([])
-    const navigate = useNavigate()
+  const logout = () => {
+    localStorage.removeItem("admin");
 
-    axios.defaults.withCredentials = true;
-    useEffect(()=>{
-        axios.get('http://localhost:4000/liveQuiz')
-        .then(result=>{
-            setValues(result.data);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }, [])
+    navigate("/Admin/adminLogin");
+  };
 
-    const redirect = (quizName) =>{
-        navigate(`../Admin/leaderBoard/${quizName}`)
-    }
+  axios.defaults.withCredentials = true;
 
-    const deleteQuiz = (quizName) =>{
-        axios.post('http://localhost:4000/deleteQuiz',{quizName})
-        .then(result=>{
-            if(result.data == "quiz deleted"){
-                toast.success("Quiz Deleted Successfully");
-            }
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/liveQuiz")
 
-    return(
-        <div>
-            <div class="header">
-                <img src={require("../pariksha.jpg")} />
-            </div>
+      .then((result) => {
+        setValues(result.data || []);
+      })
 
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Services</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/quizDetails">Quiz Details</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/createQuiz">Create Quiz</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/upload">Upload</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="../Admin/totalUsers">Total Users</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Name of the Quiz</th>
-                        <th scope="col">Date/Time</th>
-                        <th scope="col">Max Marks</th>
-                        <th scope="col">Show Details</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        {
-                            values == null ? "" : values.map((value) => {
-                                return <tr>
-                                    <td>{value.quizName}</td>
-                                    {/* <td>{moment(value.quizDate).format('Do MMM YYYY, h:mm:ss a')}</td> */}
-                                    <td>{moment(value.quizDate).format('Do MMM YYYY, HH:mm')}</td>
+  // Leaderboard redirect
+  const redirectLeaderboard = (quizName) => {
+    navigate(`/Admin/leaderBoard/${quizName}`);
+  };
 
-                                    <td>{value.Query == null ? "" : value.Query.length*4}</td>
-                                    <td><button className="btn btn-outline-success" onClick={()=>redirect(value.quizName)} >Click here</button></td>
-                                    <td><button className="btn btn-outline-danger" onClick={()=>deleteQuiz(value.quizName)} >Click here</button></td>
-                                </tr>
-                            })
-                        }
+  // Quiz details redirect (optional)
+  const redirectDetails = (quizName) => {
+    navigate(`/Admin/quizDetails/${quizName}`);
+  };
 
-                </tbody>
-            </table>
+  // Delete quiz
+  const deleteQuiz = (quizName) => {
+    axios
+      .post("http://localhost:4000/deleteQuiz", { quizName })
 
-            <div class="footer">
-                <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
-                <br />
-            </div>
-            <ToastContainer/>
+      .then((result) => {
+        if (result.data === "quiz deleted") {
+          toast.success("Quiz Deleted Successfully");
+
+          // refresh list
+          setValues((prev) => prev.filter((q) => q.quizName !== quizName));
+        }
+      })
+
+      .catch((error) => console.log(error));
+  };
+
+  return (
+    <div>
+      {/* HEADER */}
+      <div className="header">
+        <img src={require("../pariksha.jpg")} alt="logo" />
+      </div>
+
+      {/* NAVBAR */}
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand">Services</a>
+
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/Admin/quizDetails">
+                  Quiz Details
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/Admin/createQuiz">
+                  Create Quiz
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/Admin/upload">
+                  Upload
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/Admin/totalUsers">
+                  Total Users
+                </Link>
+              </li>
+            </ul>
+
+            {/* RIGHT SIDE LOGOUT */}
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <button className="btn btn-danger" onClick={logout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-    )
+      </nav>
+
+      {/* TABLE */}
+      <div className="container mt-4">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>Name of the Quiz</th>
+              <th>Date/Time</th>
+              <th>Max Marks</th>
+              <th>Details</th>
+              <th>Leaderboard</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {values.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No Quiz Found
+                </td>
+              </tr>
+            ) : (
+              values.map((value, index) => (
+                <tr key={index}>
+                  <td>{value.quizName}</td>
+
+                  <td>{moment(value.quizDate).format("Do MMM YYYY, HH:mm")}</td>
+
+                  <td>{(value.Query?.length || 0) * 4}</td>
+
+                  {/* DETAILS BUTTON */}
+                  <td>
+                    <button
+                      className="btn btn-outline-success"
+                      onClick={() => redirectDetails(value.quizName)}
+                    >
+                      Details
+                    </button>
+                  </td>
+
+                  {/* LEADERBOARD BUTTON */}
+                  <td>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={() => redirectLeaderboard(value.quizName)}
+                    >
+                      Leaderboard
+                    </button>
+                  </td>
+
+                  {/* DELETE BUTTON */}
+                  <td>
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => deleteQuiz(value.quizName)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* FOOTER */}
+      <div className="footer">
+        <br />
+
+        <p>
+          © 2026 Designed, Developed and Hosted by National Informatics Center.
+        </p>
+
+        <br />
+      </div>
+
+      <ToastContainer />
+    </div>
+  );
 }
 
 export default QuizDetails;

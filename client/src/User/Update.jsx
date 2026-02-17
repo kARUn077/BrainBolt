@@ -139,7 +139,7 @@ function Update() {
 
             <div class="footer">
                 <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
+                <p>&copy; 2026 Designed, Developed and Hosted by National Informatics Center.</p>
                 <br />
             </div>
         </div>

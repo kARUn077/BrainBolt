@@ -332,7 +332,7 @@ function Dashboard() {
       <div class="footer">
         <br />
         <p>
-          &copy; 2024 Designed, Developed and Hosted by National Informatics
+          &copy; 2026 Designed, Developed and Hosted by National Informatics
           Center.
         </p>
         <br />

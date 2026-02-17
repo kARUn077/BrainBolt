@@ -64,7 +64,7 @@ function About() {
                                     </div>
                                     <div class="col">
                                         <div class="p-3">
-                                            <p style={{ textAlign: "left" }}>Hello EveryOne, Myself Karun Poddar pursuing Bachelor's of Technology. Currently, I am a pre-final year here at the National Institute of Technology Allahabad.</p>
+                                            <p style={{ textAlign: "left" }}>Hello EveryOne, Myself Karun Poddar pursuing Bachelor's of Technology. Currently, I am a final year here at the National Institute of Technology Allahabad.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@ function About() {
 
             <div class="footer">
                 <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by National Informatics Center.</p>
+                <p>&copy; 2026 Designed, Developed and Hosted by National Informatics Center.</p>
                 <br />
             </div>
         </div>
